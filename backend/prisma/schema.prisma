@@ -1,0 +1,70 @@
+
+generator client {
+  provider = "prisma-client"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String    @id @default(uuid())
+  email     String    @unique
+  password  String    
+  firstName String    
+  lastName  String
+  role      Role      @default(EMPLOYEE)
+  isActive  Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  employeeProfile EmployeeProfile?
+  
+
+}
+model EmployeeProfile {
+  id                String     @id @default(uuid())
+  userId            String     @unique
+  user              User       @relation(fields: [userId], references: [id])
+  employeeCode      String     @unique
+  department        String
+  position          String
+  joinDate          DateTime
+  phoneNumber       String?
+  address           String?
+  salary            Float?
+  emergencyContact  String?
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+}
+
+model AttendanceRecord {
+  id          String   @id @default(uuid())
+  userId      String   
+  user        User     @relation(fields: [userId], references: [id])
+  date        DateTime @default(now())
+  checkIn     DateTime
+  checkOut    DateTime?
+  status      AttendanceStatus @default(PRESENT)
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, date])
+}
+
+enum Role {
+  ADMIN
+  HR_MANAGER
+  EMPLOYEE
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  HALF_DAY
+}
+
+

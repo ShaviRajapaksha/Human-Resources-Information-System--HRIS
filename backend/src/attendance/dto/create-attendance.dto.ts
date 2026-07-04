@@ -16,6 +16,11 @@ export class CreateAttendanceDto {
     @IsOptional()
     checkIn?: string;
 
+    @ApiProperty({ example: '2024-03-01T17:00:00Z', required: false })
+    @IsDateString()
+    @IsOptional()
+    checkOut?: string;
+    
     @ApiProperty({ enum: AttendanceStatus, default: AttendanceStatus.PRESENT })
     @IsEnum(AttendanceStatus)
     @IsOptional()

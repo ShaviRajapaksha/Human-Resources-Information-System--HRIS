@@ -6,6 +6,9 @@ import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
+  create(registerDto: RegisterDto) {
+    throw new Error('Method not implemented.');
+  }
   constructor( 
     private prisma: PrismaService,
     private jwtService: JwtService

@@ -1,25 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
-import { PrismaClient } from '@prisma/client/extension';
 
 @Injectable()
 export class EmployeesService {
-  constructor(private prisma: PrismaClient) {}
+  constructor(private prisma: PrismaService) {}
 
   private generateEmployeeId(): string {
     return `EMP${Date.now().toString().slice(-6)}`;
-  }
-
-  async create(dto: CreateEmployeeDto) {
-    return this.prisma.employee.create({
-      data: {
-        ...dto,
-        employeeId: this.generateEmployeeId(),
-        hireDate: new Date(dto.hireDate),
-      },
-      include: { department: true },
-    });
   }
 
   async findAll(search?: string, departmentId?: number) {
@@ -52,6 +41,17 @@ export class EmployeesService {
     });
     if (!emp) throw new NotFoundException(`Employee #${id} not found`);
     return emp;
+  }
+
+  async create(dto: CreateEmployeeDto) {
+    return this.prisma.employee.create({
+      data: {
+        ...dto,
+        employeeId: this.generateEmployeeId(),
+        hireDate: new Date(dto.hireDate),
+      },
+      include: { department: true },
+    });
   }
 
   async update(id: number, dto: UpdateEmployeeDto) {

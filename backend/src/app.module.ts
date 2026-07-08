@@ -1,27 +1,30 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
 import { PrismaModule } from './prisma/prisma.module';
-import { AttendanceModule } from './attendance/attendance.module';
 import { AuthModule } from './auth/auth.module';
-import { DashboardModule } from './dashboard/dashboard.module';
-import { DepartmentsModule } from './departments/departments.module';
 import { EmployeesModule } from './employees/employees.module';
+import { DepartmentsModule } from './departments/departments.module';
 import { LeavesModule } from './leaves/leaves.module';
+import { AttendanceModule } from './attendance/attendance.module';
 import { PayrollModule } from './payroll/payroll.module';
+import { DashboardModule } from './dashboard/dashboard.module';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     PrismaModule,
-    AttendanceModule,
     AuthModule,
-    DashboardModule,
-    DepartmentsModule,
     EmployeesModule,
+    DepartmentsModule,
     LeavesModule,
+    AttendanceModule,
     PayrollModule,
+    DashboardModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    { provide: APP_GUARD, useClass: JwtAuthGuard },
+  ],
 })
 export class AppModule {}

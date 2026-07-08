@@ -1,34 +1,35 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Public } from './public.decorator';
+import { AuthResponseDto, LoginDto, RegisterDto } from './dto/auth.dto';
+import { JwtAuthGuard } from './jwt-auth.guard';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post()
-  create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  @Public()
+  @Post('register')
+  @ApiOperation({ summary: 'Register a new user' })
+  register(@Body() registerDto: RegisterDto): Promise<AuthResponseDto> {
+    return this.authService.register(registerDto);
   }
 
-  @Get()
-  findAll() {
-    return this.authService.findAll();
-  }
+  @Public()
+  @Post('login')
+  @ApiOperation({ summary: 'Register a new user' })
+  login(@Body() loginDto: LoginDto): Promise<AuthResponseDto> {
+    return this.authService.login(loginDto);
+  }  
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id);
+  @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get current user profile' })
+  getProfile(@Request() req) {
+    return this.authService.getProfile(req.user.id);
   }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authService.remove(+id);
-  }
+ 
 }

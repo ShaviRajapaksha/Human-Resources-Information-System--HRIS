@@ -2,6 +2,24 @@
 
 A full-stack **Human Resource Information System** built with NestJS, Prisma, PostgreSQL, and React.
 
+##  Table of Contents
+
+| Section | Description |
+|---------|-------------|
+| [Overview](#overview) | Project introduction and key objectives |
+| [Tech Stack](#tech-stack) | Technologies and frameworks used |
+| [Project Structure](#project-structure) | High-level project organization |
+| [Prerequisites](#prerequisites) | Required software and dependencies |
+| [Getting Started](#getting-started) | Setup and installation guide |
+|  [Database Setup](#1-database-setup) | Database configuration and migration steps |
+|  [Backend Setup](#2-backend-setup) | Backend installation and configuration |
+|  [Frontend Setup](#3-frontend-setup) | Frontend installation and configuration |
+| [Environment Variables](#environment-variables) | Required environment configurations |
+| [Default Credentials](#default-credentials) | Default login credentials for testing |
+| [Modules & Features](#modules--features) | Available system modules and features |
+| [API Reference](#api-reference) | API endpoints and usage details |
+| [Database Schema](#database-schema) | Database models and relationships |
+| [Scripts Reference](#scripts-reference) | Available development scripts |
 
 ## Overview
 

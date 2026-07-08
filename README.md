@@ -268,7 +268,7 @@ The frontend is running at: **`http://localhost:5173`**
 
 | Variable | Default | Description |
 |---|---|---|
-| `DATABASE_URL` | `postgresql://postgres:postgres@localhost:5432/hris_db` | PostgreSQL connection string |
+| `DATABASE_URL` | `postgresql://username:password@localhost:5432/hris_db` | PostgreSQL connection string |
 | `JWT_SECRET` | `hris-super-secret-jwt-key-2024` | Secret used to sign JWT tokens. Change this in production. |
 | `JWT_EXPIRES_IN` | `7d` | Token expiry duration |
 | `PORT` | `3000` | Port the API listens on |
